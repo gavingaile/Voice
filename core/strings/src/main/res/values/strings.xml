@@ -280,4 +280,4 @@
     <string name="sleep_timer.dialog.title">Sweet dreams! 🌙</string>
     <!-- Sleep timer option and playback status for stopping at the end of a chapter. -->
     <string name="sleep_timer.end_of_chapter">End of Chapter</string>
-</resources>
+  <string name="book.sync.action.upload">Sync to cloud</string>\n</resources>
