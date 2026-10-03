@@ -12,6 +12,8 @@ dependencies {
   implementation(projects.core.strings)
   implementation(projects.core.playback)
   implementation(projects.core.data.api)
+  implementation(projects.core.sync.api)
+  implementation(projects.core.sync.impl)
   implementation(projects.core.scanner)
   implementation(projects.core.featureflag)
 
