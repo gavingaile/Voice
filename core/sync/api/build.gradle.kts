@@ -1,11 +1,10 @@
 plugins {
-  alias(libs.plugins.android.library)
-  alias(libs.plugins.kotlin.android)
+  id("voice.library")
   alias(libs.plugins.kotlin.serialization)
 }
 
-android {
-  namespace = "voice.core.sync.api"
+kotlin {
+  explicitApi()
 }
 
 dependencies {
