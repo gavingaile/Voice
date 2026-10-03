@@ -78,6 +78,7 @@ include(":core:scanner")
 include(":core:search")
 include(":core:sleeptimer:api")
 include(":core:sleeptimer:impl")
+include(":core:sync:api")
 include(":core:strings")
 include(":core:ui")
 
