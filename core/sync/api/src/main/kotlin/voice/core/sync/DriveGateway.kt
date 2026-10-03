@@ -29,6 +29,11 @@ public data class RemoteFile(
   val sizeBytes: Long?,
 )
 
+public sealed interface DriveUploadResult {
+  public data class Complete(val file: RemoteFile) : DriveUploadResult
+  public data class Incomplete(val uploadedBytes: Long) : DriveUploadResult
+}
+
 public interface DriveGateway {
   public suspend fun findOrCreateSyncFolder(): String
 
@@ -37,9 +42,17 @@ public interface DriveGateway {
     source: UploadSource,
   ): ResumableUploadSession
 
-  public suspend fun upload(
+  /**
+   * Sends one resumable-upload chunk beginning at [offsetBytes].
+   *
+   * Google Drive may acknowledge only part of an upload. Returning the
+   * acknowledged byte count lets the caller reopen the source stream and
+   * continue without retransmitting the entire audiobook.
+   */
+  public suspend fun uploadChunk(
     session: ResumableUploadSession,
     source: UploadSource,
-    onProgress: (uploadedBytes: Long, totalBytes: Long) -> Unit = { _, _ -> },
-  ): RemoteFile
+    offsetBytes: Long,
+    maxChunkBytes: Int,
+  ): DriveUploadResult
 }
