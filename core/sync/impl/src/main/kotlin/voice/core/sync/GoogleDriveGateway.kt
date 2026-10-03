@@ -27,7 +27,25 @@ public class GoogleDriveGateway(
       val body = response.body?.string().orEmpty()
       if (response.code !in 200..299) throw IOException("Drive list failed: HTTP " + response.code)
       json.decodeFromString<FileList>(body).files.firstOrNull()?.id
-        ?: throw IOException("Voice Sync folder does not exist yet")
+    } ?: createSyncFolder()
+  }
+
+  private suspend fun createSyncFolder(): String {
+    val metadata = FileMetadata(
+      name = DriveSyncContract.FolderName,
+      mimeType = DriveSyncContract.FolderMimeType,
+    )
+    val request = Request.Builder()
+      .url("https://www.googleapis.com/drive/v3/files?fields=id,name")
+      .post(json.encodeToString(metadata).toRequestBody(JsonMediaType))
+      .authorized()
+      .build()
+    return execute(request).use { response ->
+      val body = response.body?.string().orEmpty()
+      if (response.code !in 200..299) {
+        throw IOException("Drive folder creation failed: HTTP " + response.code)
+      }
+      json.decodeFromString<DriveFile>(body).id
     }
   }
 
