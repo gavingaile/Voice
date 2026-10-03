@@ -181,6 +181,7 @@ dependencies {
   implementation(libs.appCompat)
   implementation(libs.lifecycle.compose)
   implementation(libs.datastore)
+  implementation(libs.play.services.auth)
 
   implementation(libs.navigation3.ui)
 
